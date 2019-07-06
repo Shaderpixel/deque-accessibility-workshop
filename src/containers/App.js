@@ -10,8 +10,7 @@ const STORAGE_KEY = 'deque-recipe';
 export default class AppContainer extends Component {
   constructor() {
     super();
-    const recipes = this.getData() || data;
-    console.log(recipes);
+    const recipes = this.getData();
     this.state = {
       recipes,
       stats: this.getStats(recipes),
@@ -22,11 +21,21 @@ export default class AppContainer extends Component {
     };
   }
 
+  /**
+   * Gets recipe data from localStorage using provided key
+   * otherwise pull from data file
+   */
   getData = () => {
     const storageData = localStorage.getItem(STORAGE_KEY);
-    return storageData && JSON.parse(storageData);
+    return storageData ? JSON.parse(storageData) : data;
   };
 
+  /**
+   * Generates an array of recipe stats
+   *
+   * @param {Array} recipes
+   * @returns {Array} array of object containing: label, value, and icon(optional)
+   */
   getStats = recipes => {
     const recipesMade = recipes.reduce(
       (acc, recipe) => (acc += recipe.cookCount),
@@ -57,9 +66,10 @@ export default class AppContainer extends Component {
       0
     );
 
-    /************************
-    /* @params data: array
-    *************************/
+    /**
+     * @params data: array
+     * returns an int or 0 if NaN
+     */
     const getAverage = data =>
       Math.floor(
         data.reduce((acc, entry) => (acc += entry), 0) / data.length
@@ -108,7 +118,12 @@ export default class AppContainer extends Component {
     ];
   };
 
+  /**
+   * TODO Create update state and localStorage methods: setData, updateRecipe, updateModalState
+   */
+
   render() {
-    return <App />;
+    const { recipes, stats, modal } = this.state;
+    return <App recipes={recipes} stats={stats} modalState={modal} />;
   }
 }

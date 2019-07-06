@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TopBar, Main, SkipLink, MenuItem, Layout, Icon } from 'cauldron-react';
 import logo from '../../img/icons/logo.svg';
 import './index.css';
@@ -36,6 +37,15 @@ const App = props =>
       </Layout>
     </div>
   );
+
+App.propTypes = {
+  recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  stats: PropTypes.arrayOf(PropTypes.object).isRequired,
+  modalState: PropTypes.shape({
+    edit: PropTypes.bool,
+    view: PropTypes.bool
+  })
+};
 
 App.displayName = 'App';
 export default App;
