@@ -5,38 +5,38 @@ import logo from '../../img/icons/logo.svg';
 import './index.css';
 import Stats from '../Stats';
 
-const App = props =>
-  console.log(props) || (
-    <div className="App">
-      <SkipLink target={'#main-content'} />
-      <TopBar role="banner">
-        <MenuItem>
-          <img alt="" role="presentation" src={logo} />
-          <span>awesome recipes</span>
-        </MenuItem>
-      </TopBar>
-      <Layout>
-        <Main id="main-content" aria-labelledby="main-heading" tabIndex={-1}>
-          <div className="App__head">
-            <div className="confined">
-              <h1 id="main-heading">Recipe Dashboard</h1>
-            </div>
-            <Stats />
+const App = props => (
+  // console.log(props) || (
+  <div className="App">
+    <SkipLink target={'#main-content'} />
+    <TopBar role="banner">
+      <MenuItem>
+        <img alt="" role="presentation" src={logo} />
+        <span>awesome recipes</span>
+      </MenuItem>
+    </TopBar>
+    <Layout>
+      <Main id="main-content" aria-labelledby="main-heading" tabIndex={-1}>
+        <div className="App__head">
+          <div className="confined">
+            <h1 id="main-heading">Recipe Dashboard</h1>
           </div>
-          <button
-            type="button"
-            className="Edit"
-            aria-label="Edit {recipe}"
-            onClick={() =>
-              alert('TODO: Build the accessible edit recipe modal! Good luck!')
-            }
-          >
-            <Icon type="fa-pencil" />
-          </button>
-        </Main>
-      </Layout>
-    </div>
-  );
+          <Stats stats={props.stats} />
+        </div>
+        <button
+          type="button"
+          className="Edit"
+          aria-label="Edit {recipe}"
+          onClick={() =>
+            alert('TODO: Build the accessible edit recipe modal! Good luck!')
+          }
+        >
+          <Icon type="fa-pencil" />
+        </button>
+      </Main>
+    </Layout>
+  </div>
+);
 
 App.propTypes = {
   recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
