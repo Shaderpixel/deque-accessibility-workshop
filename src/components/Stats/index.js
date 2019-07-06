@@ -27,7 +27,15 @@ const Stats = ({ stats }) => (
                 <span>{value}</span>
               )}
             </div>
-            <div className="Stat__label">{label}</div>
+            <div>
+              <div className="Stat__label">{label}</div>
+              {histogram && (
+                <div className="Histogram__value-wrap">
+                  <span className="Histogram__value">{value}</span>
+                  <span>avg</span>
+                </div>
+              )}
+            </div>
           </h2>
         </div>
       ))}
@@ -40,7 +48,8 @@ Stats.propTypes = {
     PropTypes.shape({
       icon: PropTypes.string,
       label: PropTypes.string.isRequired,
-      value: PropTypes.number
+      value: PropTypes.number,
+      histogram: PropTypes.arrayOf(PropTypes.object)
     })
   )
 };

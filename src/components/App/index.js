@@ -21,8 +21,8 @@ const App = props => (
           <div className="confined">
             <h1 id="main-heading">Recipe Dashboard</h1>
           </div>
-          <Stats stats={props.stats} />
         </div>
+        <Stats stats={props.stats} />
         <button
           type="button"
           className="Edit"
