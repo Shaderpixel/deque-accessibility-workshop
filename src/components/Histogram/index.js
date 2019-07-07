@@ -21,7 +21,7 @@ const Histogram = ({ data }) => {
   const sortedData = [...data].sort((prev, next) => {
     return prev.month > next.month ? 1 : -1;
   });
-  console.log(sortedData);
+
   return (
     <ul
       className="Stat__value-histogram"

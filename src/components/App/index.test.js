@@ -1,5 +1,6 @@
-// import React from 'react';
-// import { mount } from 'enzyme';
+import React from 'react';
+import { mount, shallow } from 'enzyme';
+import App from './';
 
 test.todo('When a dialog opens, focus moves to an element inside the dialog');
 test.todo('Tab: Moves focus to the next tabbable element inside the dialog.');
@@ -47,3 +48,8 @@ test.todo('Dialog has either aria-labelledby or aria-label');
  * test.todo('clicking the delete button deletes the associated input and retains focus');
  * ```
  */
+
+//  it('have some children', () => {
+//   const wrapper = shallow(<App />);
+//   console.log(wrapper.children().debug());
+//  });
