@@ -4,6 +4,7 @@ import { TopBar, Main, SkipLink, MenuItem, Layout, Icon } from 'cauldron-react';
 import logo from '../../img/icons/logo.svg';
 import './index.css';
 import Stats from '../Stats';
+import Recipes from '../Recipes';
 
 const App = props => (
   // console.log(props) || (
@@ -23,6 +24,7 @@ const App = props => (
           </div>
         </div>
         <Stats stats={props.stats} />
+        <Recipes recipes={props.recipes} />
         <button
           type="button"
           className="Edit"
