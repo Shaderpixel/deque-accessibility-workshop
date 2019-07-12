@@ -21,6 +21,33 @@ const fakeStats = [
   }
 ];
 
+const testRecipe = [
+  {
+    name: 'Chocolate Cake',
+    date: '11/17/2018',
+    cookCount: 1,
+    image: '/food/cake.png',
+    prepTime: '20 min',
+    cookTime: '30 min',
+    difficulty: 'Beginner',
+    greaseFireCount: 0,
+    yumminess: 50,
+    ingredients: [
+      '2 cups white sugar',
+      '1 3/4 cups of all-purpose flour',
+      '3/4 cup unsweetened cocoa powder',
+      '1 1/2 teaspoons baking powder',
+      '1 1/2 teaspoons baking soda',
+      '1 teaspoon of salt',
+      '2 eggs',
+      '1 cup milk',
+      '1/2 cup vegetable oil',
+      '2 teaspoons vanilla extract',
+      '1 cup boiling water'
+    ]
+  }
+];
+
 // Fake LocalStorage
 class LocalStorageMock {
   constructor() {
@@ -44,4 +71,4 @@ class LocalStorageMock {
   }
 }
 
-export { fakeStats, LocalStorageMock };
+export { fakeStats, LocalStorageMock, testRecipe };
