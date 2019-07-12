@@ -48,6 +48,11 @@ const testRecipe = [
   }
 ];
 
+const defaultModalState = {
+  edit: null,
+  view: null
+};
+
 // Fake LocalStorage
 class LocalStorageMock {
   constructor() {
@@ -71,4 +76,4 @@ class LocalStorageMock {
   }
 }
 
-export { fakeStats, LocalStorageMock, testRecipe };
+export { fakeStats, LocalStorageMock, testRecipe, defaultModalState };

@@ -1,9 +1,13 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Button } from 'cauldron-react';
+import RecipeModal from '../../containers/RecipeModal';
 import './index.css';
-
-const Recipes = ({ recipes }) => {
+// TODO implement RecipeModal
+const Recipes = ({
+  recipes,
+  modalState: { edit, view } // multi level destructuring
+}) => {
   return (
     <div className="Recipes">
       {recipes.map(recipe => (
@@ -60,7 +64,11 @@ Recipes.propTypes = {
       prepTime: PropTypes.string,
       yumminess: PropTypes.number
     })
-  )
+  ),
+  modalState: PropTypes.shape({
+    edit: PropTypes.bool,
+    view: PropTypes.bool
+  })
 };
 
 export default Recipes;
