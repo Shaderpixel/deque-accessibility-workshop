@@ -6,7 +6,7 @@ import './index.css';
 import Stats from '../Stats';
 import Recipes from '../Recipes';
 
-const App = props => (
+const App = ({ recipes, stats, modalState }) => (
   // console.log(props) || (
   <div className="App">
     <SkipLink target={'#main-content'} />
@@ -23,8 +23,8 @@ const App = props => (
             <h1 id="main-heading">Recipe Dashboard</h1>
           </div>
         </div>
-        <Stats stats={props.stats} />
-        <Recipes recipes={props.recipes} />
+        <Stats stats={stats} />
+        <Recipes recipes={recipes} modalState={modalState} />
         <button
           type="button"
           className="Edit"
