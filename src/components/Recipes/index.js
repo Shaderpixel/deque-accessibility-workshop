@@ -66,8 +66,8 @@ Recipes.propTypes = {
     })
   ),
   modalState: PropTypes.shape({
-    edit: PropTypes.bool,
-    view: PropTypes.bool
+    edit: PropTypes.string,
+    view: PropTypes.string
   })
 };
 

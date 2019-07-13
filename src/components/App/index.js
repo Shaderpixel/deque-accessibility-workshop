@@ -44,8 +44,8 @@ App.propTypes = {
   recipes: PropTypes.arrayOf(PropTypes.object).isRequired,
   stats: PropTypes.arrayOf(PropTypes.object).isRequired,
   modalState: PropTypes.shape({
-    edit: PropTypes.bool,
-    view: PropTypes.bool
+    edit: PropTypes.string,
+    view: PropTypes.string
   })
 };
 
