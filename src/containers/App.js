@@ -118,12 +118,24 @@ export default class AppContainer extends Component {
     ];
   };
 
+  updateModalState = newModalState => {
+    // const newState = {...this.state, modal: {...this.state.modal, ...newModalState}};
+    this.setState({ modal: { ...this.state.modal, ...newModalState } });
+  };
+
   /**
-   * TODO Create update state and localStorage methods: setData, updateRecipe, updateModalState
+   * TODO Create update state and localStorage methods: setData, updateRecipe
    */
 
   render() {
     const { recipes, stats, modal } = this.state;
-    return <App recipes={recipes} stats={stats} modalState={modal} />;
+    return (
+      <App
+        recipes={recipes}
+        stats={stats}
+        modalState={modal}
+        updateModalState={this.updateModalState}
+      />
+    );
   }
 }

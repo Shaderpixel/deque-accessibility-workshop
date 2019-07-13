@@ -6,9 +6,10 @@ import './index.css';
 import Stats from '../Stats';
 import Recipes from '../Recipes';
 
-const App = ({ recipes, stats, modalState }) => (
+const App = ({ recipes, stats, modalState, updateModalState }) => (
   // console.log(props) || (
   <div className="App">
+    {/* TODO hide skiplink when modal is open  */}
     <SkipLink target={'#main-content'} />
     <TopBar role="banner">
       <MenuItem>
@@ -24,7 +25,11 @@ const App = ({ recipes, stats, modalState }) => (
           </div>
         </div>
         <Stats stats={stats} />
-        <Recipes recipes={recipes} modalState={modalState} />
+        <Recipes
+          recipes={recipes}
+          modalState={modalState}
+          updateModalState={updateModalState}
+        />
         <button
           type="button"
           className="Edit"
@@ -46,7 +51,8 @@ App.propTypes = {
   modalState: PropTypes.shape({
     edit: PropTypes.string,
     view: PropTypes.string
-  })
+  }),
+  updateModalState: PropTypes.func.isRequired
 };
 
 App.displayName = 'App';

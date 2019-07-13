@@ -3,18 +3,29 @@ import PropTypes from 'prop-types';
 import { Icon, Button } from 'cauldron-react';
 import RecipeModal from '../../containers/RecipeModal';
 import './index.css';
+
 // TODO implement RecipeModal
+
 const Recipes = ({
   recipes,
+  updateModalState,
   modalState: { edit, view } // multi level destructuring
 }) => {
+  const modalIsShowing = edit || view;
+  const buttonTabIndex = modalIsShowing ? -1 : 0;
+
   return (
     <div className="Recipes">
       {recipes.map(recipe => (
         <Fragment key={`${recipe.name}-${recipe.date}`}>
           <div className={'Recipes__card'}>
             <div className="Recipes__card-head">
-              <button type="button" aria-label={`Edit ${recipe.name}`}>
+              <button
+                type="button"
+                aria-label={`Edit ${recipe.name}`}
+                onClick={() => updateModalState({ edit: recipe.name })}
+                tabIndex={buttonTabIndex}
+              >
                 <div aria-hidden="true" className="fa fa-pencil"></div>
               </button>
               <img src={recipe.image} alt="" role="presentation" />
@@ -31,7 +42,11 @@ const Recipes = ({
               </dl>
             </div>
             <div className="Recipes__card-foot">
-              <Button className="dqpl-button-primary">
+              <Button
+                className="dqpl-button-primary"
+                onClick={() => updateModalState({ view: recipe.name })}
+                tabIndex={buttonTabIndex}
+              >
                 <span className="BracketLeft" aria-hidden="true">
                   [
                 </span>{' '}
@@ -52,23 +67,24 @@ const Recipes = ({
 Recipes.propTypes = {
   recipes: PropTypes.arrayOf(
     PropTypes.shape({
-      cookCount: PropTypes.number,
-      cookTime: PropTypes.string,
-      date: PropTypes.string,
-      difficulty: PropTypes.string,
-      greaseFireCount: PropTypes.number,
-      image: PropTypes.string,
-      ingredients: PropTypes.array,
-      instructions: PropTypes.array,
-      name: PropTypes.string,
-      prepTime: PropTypes.string,
-      yumminess: PropTypes.number
+      cookCount: PropTypes.number.isRequired,
+      cookTime: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      difficulty: PropTypes.string.isRequired,
+      greaseFireCount: PropTypes.number.isRequired,
+      image: PropTypes.string.isRequired,
+      ingredients: PropTypes.array.isRequired,
+      instructions: PropTypes.array.isRequired,
+      name: PropTypes.string.isRequired,
+      prepTime: PropTypes.string.isRequired,
+      yumminess: PropTypes.number.isRequired
     })
   ),
   modalState: PropTypes.shape({
     edit: PropTypes.string,
     view: PropTypes.string
-  })
+  }),
+  updateModalState: PropTypes.func.isRequired
 };
 
 export default Recipes;
