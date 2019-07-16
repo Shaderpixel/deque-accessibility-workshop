@@ -26,7 +26,7 @@ const Recipes = ({
                 onClick={() => updateModalState({ edit: recipe.name })}
                 tabIndex={buttonTabIndex}
               >
-                <div aria-hidden="true" className="fa fa-pencil"></div>
+                <Icon type="fa-pencil" />
               </button>
               <img src={recipe.image} alt="" role="presentation" />
             </div>
@@ -43,20 +43,26 @@ const Recipes = ({
             </div>
             <div className="Recipes__card-foot">
               <Button
-                className="dqpl-button-primary"
                 onClick={() => updateModalState({ view: recipe.name })}
                 tabIndex={buttonTabIndex}
               >
                 <span className="BracketLeft" aria-hidden="true">
                   [
-                </span>{' '}
-                {`Cook ${recipe.name}`}
+                </span>
+                <span>{`Cook ${recipe.name}`}</span>
                 <span className="BracketRight" aria-hidden="true">
                   ]
                 </span>
               </Button>
             </div>
           </div>
+          <RecipeModal
+            show={view === recipe.name}
+            // TODO: Implement updateRecipe and
+            // By not specifically typing updateModalState to onClose allows RecipeModal to be modular
+            onClose={() => updateModalState({ view: null })}
+            recipe={recipe}
+          />
         </Fragment>
       ))}
     </div>
