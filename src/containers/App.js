@@ -118,14 +118,34 @@ export default class AppContainer extends Component {
     ];
   };
 
+  /**
+   * Updates the recipe data in local storage when edits are made in app
+   */
+  setData = updated => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+  };
+
+  /**
+   * Updates a recipe, specified by index and
+   * saves it to local storage (our pseudo-db)
+   */
+  updateRecipe = (index, updates) => {
+    const recipes = [...this.state.recipes];
+    recipes[index] = {
+      ...recipes[index],
+      ...updates
+    };
+    this.setState({
+      recipes,
+      stats: this.getStats(recipes)
+    });
+    this.setData(recipes);
+  };
+
   updateModalState = newModalState => {
     // const newState = {...this.state, modal: {...this.state.modal, ...newModalState}};
     this.setState({ modal: { ...this.state.modal, ...newModalState } });
   };
-
-  /**
-   * TODO Create update state and localStorage methods: setData, updateRecipe
-   */
 
   render() {
     const { recipes, stats, modal } = this.state;
@@ -134,6 +154,7 @@ export default class AppContainer extends Component {
         recipes={recipes}
         stats={stats}
         modalState={modal}
+        updateRecipe={this.updateRecipe}
         updateModalState={this.updateModalState}
       />
     );
