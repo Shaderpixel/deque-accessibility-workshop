@@ -15,12 +15,15 @@ export default class RecipeModal extends Component {
   static propTypes = {
     edit: PropTypes.bool,
     show: PropTypes.bool.isRequired,
+    validate: PropTypes.func.isRequired,
+    add: PropTypes.func.isRequired,
     errors: PropTypes.object.isRequired,
     recipe: PropTypes.object.isRequired,
+    onDelete: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
+    onGreaseChange: PropTypes.func.isRequired,
     setItemRef: PropTypes.func.isRequired,
-    onDelete: PropTypes.string.isRequired,
-    onClose: PropTypes.func.isRequired
-    // TODO onGreaseChange, validate, add, setWrapperRef,
+    setWrapperRef: PropTypes.func.isRequired
   };
 
   /**
