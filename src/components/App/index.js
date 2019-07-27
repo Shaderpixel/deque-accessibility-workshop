@@ -6,7 +6,13 @@ import './index.css';
 import Stats from '../Stats';
 import Recipes from '../Recipes';
 
-const App = ({ recipes, stats, modalState, updateModalState }) => (
+const App = ({
+  recipes,
+  stats,
+  modalState,
+  updateRecipe,
+  updateModalState
+}) => (
   // console.log(props) || (
   <div className="App">
     {/* TODO hide skiplink when modal is open  */}
@@ -28,6 +34,7 @@ const App = ({ recipes, stats, modalState, updateModalState }) => (
         <Recipes
           recipes={recipes}
           modalState={modalState}
+          updateRecipe={updateRecipe}
           updateModalState={updateModalState}
         />
         <button
@@ -52,6 +59,7 @@ App.propTypes = {
     edit: PropTypes.string,
     view: PropTypes.string
   }),
+  updateRecipe: PropTypes.func.isRequired,
   updateModalState: PropTypes.func.isRequired
 };
 

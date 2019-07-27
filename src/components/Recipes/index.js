@@ -8,6 +8,7 @@ import './index.css';
 
 const Recipes = ({
   recipes,
+  updateRecipe,
   updateModalState,
   modalState: { edit, view } // multi level destructuring
 }) => {
@@ -16,7 +17,7 @@ const Recipes = ({
 
   return (
     <div className="Recipes">
-      {recipes.map(recipe => (
+      {recipes.map((recipe, index) => (
         <Fragment key={`${recipe.name}-${recipe.date}`}>
           <div className={'Recipes__card'}>
             <div className="Recipes__card-head">
@@ -58,8 +59,7 @@ const Recipes = ({
           </div>
           <RecipeModal
             show={view === recipe.name}
-            // TODO: Implement updateRecipe and
-            // By not specifically typing updateModalState to onClose allows RecipeModal to be modular
+            updateRecipe={data => updateRecipe(index, data)}
             onClose={() => updateModalState({ view: null })}
             recipe={recipe}
           />
@@ -90,6 +90,7 @@ Recipes.propTypes = {
     edit: PropTypes.string,
     view: PropTypes.string
   }),
+  updateRecipe: PropTypes.func.isRequired,
   updateModalState: PropTypes.func.isRequired
 };
 
