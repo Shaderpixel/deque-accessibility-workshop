@@ -92,7 +92,11 @@ export default class RecipeModal extends Component {
             </div>
             {edit && (
               <div className="RecipeModal__add-another">
-                <button type="button" className="dqpl-link">
+                <button
+                  type="button"
+                  className="dqpl-link"
+                  onClick={this.addIngredient}
+                >
                   + Add another ingredient
                 </button>
               </div>
@@ -108,7 +112,11 @@ export default class RecipeModal extends Component {
             </div>
             {edit ? (
               <div className="RecipeModal__add-another">
-                <button type="button" className="dqpl-link">
+                <button
+                  type="button"
+                  className="dqpl-link"
+                  onClick={this.addInstruction}
+                >
                   + Add another instruction
                 </button>
               </div>
@@ -157,4 +165,3 @@ export default class RecipeModal extends Component {
 // what does the Button component from DQ cauldron do? it has a specific styling set for the button element. Comes with the .dqpl-button-primary by default or dpql-button-secondary by adding the secondary prop
 
 // TODO SAVE on edit still not working properly
-// TODO Add another ingredient / instruction not working properly
