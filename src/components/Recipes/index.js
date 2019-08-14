@@ -57,10 +57,19 @@ const Recipes = ({
               </Button>
             </div>
           </div>
+          {/* view modal */}
           <RecipeModal
             show={view === recipe.name}
             updateRecipe={data => updateRecipe(index, data)}
             onClose={() => updateModalState({ view: null })}
+            recipe={recipe}
+          />
+          {/* edit modal */}
+          <RecipeModal
+            edit
+            show={edit === recipe.name}
+            updateRecipe={data => updateRecipe(index, data)}
+            onClose={() => updateModalState({ edit: null })}
             recipe={recipe}
           />
         </Fragment>
@@ -68,7 +77,7 @@ const Recipes = ({
     </div>
   );
 };
-
+// TODO View modal recipe information doesn't update after edit save!! check to see what is recipe after something has been updated
 // TODO Recipes.displayName = 'Recipes'
 Recipes.propTypes = {
   recipes: PropTypes.arrayOf(
