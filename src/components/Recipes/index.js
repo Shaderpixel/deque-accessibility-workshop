@@ -4,8 +4,6 @@ import { Icon, Button } from 'cauldron-react';
 import RecipeModal from '../../containers/RecipeModal';
 import './index.css';
 
-// TODO implement RecipeModal
-
 const Recipes = ({
   recipes,
   updateRecipe,
