@@ -26,28 +26,51 @@ export default class RecipeModal extends Component {
     setWrapperRef: PropTypes.func.isRequired
   };
 
+  addIngredient = () => this.props.add('ingredients');
+  addInstruction = () => this.props.add('instructions');
+
   /**
    * @param type is either ingredients or instructions
    */
   renderItems = type => {
     const { errors, edit, recipe, setItemRef, onDelete } = this.props;
+    const getErrorMessage = i => {
+      const errData = errors[type].find(error => {
+        return error.errorIndex === i;
+      });
+      return (errData && errData.errorMessage) || null;
+    };
     return recipe[type].map((value, i) => (
       <RecipeModalItem
         key={`${recipe.name}:${value || `empty-${i}`}`}
-        error={null} //TODO expand further
+        error={getErrorMessage(i)}
         edit={edit}
         index={i}
         data={value}
         type={type}
+        fieldRef={input => {
+          setItemRef(type, i, input);
+        }}
         onDelete={onDelete}
       />
     ));
   };
 
   render() {
-    const { edit, show, recipe, onClose } = this.props;
+    const {
+      errors,
+      edit,
+      show,
+      recipe,
+      onClose,
+      setWrapperRef,
+      onGreaseChange,
+      validate
+    } = this.props;
     const ingredientItems = this.renderItems('ingredients');
     const instructionItems = this.renderItems('instructions');
+
+    // TODO Add another recipe and another instruction not hooked up yet!!!
 
     return (
       <Modal
@@ -56,13 +79,14 @@ export default class RecipeModal extends Component {
         onClose={onClose}
         className="RecipeModal"
       >
-        <form>
+        <form onSubmit={validate}>
           <ModalContent>
             <h3 id="ingredients-heading">Ingredients</h3>
             <div
               className="RecipeModal__group"
               tabIndex={-1}
               aria-labelledby="ingredients-heading"
+              ref={el => setWrapperRef('ingredientsWrapper', el)}
             >
               {edit ? ingredientItems : <ul>{ingredientItems}</ul>}
             </div>
@@ -78,6 +102,7 @@ export default class RecipeModal extends Component {
               className="RecipeModal__group"
               tabIndex="-1"
               aria-labelledby="instructions-heading"
+              ref={el => setWrapperRef('instructionsWrapper', el)}
             >
               {edit ? instructionItems : <ol>{instructionItems}</ol>}
             </div>
@@ -95,12 +120,17 @@ export default class RecipeModal extends Component {
                   type="number"
                   min="0"
                   max="50"
+                  fieldRef={el => {
+                    console.log(el);
+                    setWrapperRef('yumminess', el);
+                  }}
                 />
                 <Checkbox
                   value="true"
                   id="grease-fire"
                   name="crease-fire"
                   label="I caused a grease fire making this"
+                  onChange={onGreaseChange}
                 />
               </div>
             )}
@@ -108,7 +138,10 @@ export default class RecipeModal extends Component {
           <ModalFooter>
             <Button
               type="submit"
-              disabled="!recipe.instructions.length && !recipe.ingredients.length"
+              onClick={validate}
+              disabled={
+                !recipe.instructions.length && !recipe.ingredients.length
+              }
             >
               {edit ? 'Save' : 'I cooked it'}
             </Button>
@@ -121,4 +154,7 @@ export default class RecipeModal extends Component {
     );
   }
 }
-// what does the Button component from DQ cauldron do?
+// what does the Button component from DQ cauldron do? it has a specific styling set for the button element. Comes with the .dqpl-button-primary by default or dpql-button-secondary by adding the secondary prop
+
+// TODO SAVE on edit still not working properly
+// TODO Add another ingredient / instruction not working properly

@@ -5,7 +5,7 @@ import { reset } from 'axe-core';
 
 // validate yumminess as a number when edit is false
 const invalidYumminess = input => {
-  const value = value && value.trim();
+  const value = input && input.value.trim();
   const convertedNumber = value && Number(value);
   return (
     !value ||
@@ -19,20 +19,22 @@ const invalidYumminess = input => {
 /**
  *
  * @param {*} input one of the input from inputs
- * @param {array} inputs whatever has been inputted, ingredients or instructions
+ * @param {array} inputs all of the form input fields, ingredients or instructions
  */
 const invalidRecipe = (input, inputs) => {
   const isEmpty = input && !input.value.trim();
   const isDuplicate = inputs.find(
     otherInput =>
-      otherInput &&
+      otherInput && // make sure otherInput and input are not empty and can be to compared with the first argument
       input &&
-      otherInput !== input &&
+      otherInput !== input && // make sure that the otherInput is not referenfing the same input in the first argument
       otherInput.value === input.value
   );
 
   return isEmpty || isDuplicate;
 };
+
+const isEmpty = input => input && !input.value.trim();
 
 const defaultErrors = {
   ingredients: [],
@@ -66,12 +68,13 @@ export default class RecipeModalContainer extends Component {
   }
 
   submitSuccess = () => {
+    // TODO changes in submitSucess not updating things in Recipes component?
     const { edit, updateRecipe, onClose, recipe } = this.props;
     const resetErrors = { errors: defaultErrors };
     const recipeUpdates = edit
       ? {
-          ingredients: this.ingredients.filter(i => console.log(i)),
-          instructions: this.instructions.filter(i => console.log(i))
+          ingredients: this.ingredients.map(ing => ing.value),
+          instructions: this.instructions.map(inst => inst.value)
         }
       : {
           // when edit is false, only yumminess, greaseFireCount, and cooked can be updated
@@ -80,7 +83,7 @@ export default class RecipeModalContainer extends Component {
             recipe.greaseFireCount + (this.state.greaseChecked ? 1 : 0),
           cookCount: recipe.cookCount + 1
         };
-    // reset the state
+    // update state with all the input values set through setItemRef
     const newState = edit ? { ...resetErrors, ...recipeUpdates } : resetErrors;
     this.setState(newState);
 
@@ -97,28 +100,39 @@ export default class RecipeModalContainer extends Component {
     const inputs = edit
       ? [...this.ingredients, ...this.instructions]
       : [this.yumminess];
-
     // filter out bad inputs
-    const errorneousInputs = inputs.filter(input => {
+    const erroneousInputs = inputs.filter(input => {
       return edit ? invalidRecipe(input, inputs) : invalidYumminess(input);
     });
 
     // no errors found
-    if (!errorneousInputs.length) {
+    if (!erroneousInputs.length) {
       return this.submitSuccess();
     }
-
-    // deal with errors in errorneousInputs array
+    // deal with errors in erroneousInputs array
+    console.log(erroneousInputs);
     const errors = edit
-      ? errorneousInputs.reduce(
+      ? erroneousInputs.reduce(
           (acc, val) => {
             const ingredientsIndex = this.ingredients.indexOf(val);
             if (ingredientsIndex > -1) {
               // if bad input exists in this.ingredients
-              acc.ingredients.push(ingredientsIndex);
+              const errorMessage = isEmpty(val)
+                ? 'Field is empty'
+                : 'Value already exist';
+              acc.ingredients.push({
+                errorIndex: ingredientsIndex,
+                errorMessage: errorMessage
+              });
             } else {
               // bad input must exist in this.instructions
-              acc.instructions.push(this.instructions.indexOf(val));
+              const errorMessage = isEmpty(val)
+                ? 'Field is empty'
+                : 'Value already exist';
+              acc.instructions.push({
+                errorIndex: this.instructions.indexOf(val),
+                errorMessage: errorMessage
+              });
             }
             return acc;
           },
@@ -131,10 +145,10 @@ export default class RecipeModalContainer extends Component {
           ...this.state.errors,
           yumminess: true
         };
-
+    console.log(errors);
     // store errors in state and after componentDidUpdate ran, set focus on the first errorneousInput
     this.setState({ errors }, () => {
-      errorneousInputs[0].focus();
+      erroneousInputs[0].focus();
     });
   };
 
@@ -144,7 +158,9 @@ export default class RecipeModalContainer extends Component {
     });
   };
 
-  // TODO what is type?
+  /**
+   * @param string type is either ingredients or instructions
+   */
   add = type => {
     this.setState(
       {
@@ -157,9 +173,13 @@ export default class RecipeModalContainer extends Component {
     );
   };
 
-  // TODO what is index, type
+  /**
+   * @param index - number the item inside ingredients or instructions
+   * @param type - string type is either ingredients or instructions
+   */
   onDelete = (index, type) => {
     let items = [...this.state[type]];
+
     const focusTarget =
       type === 'ingredients'
         ? this.ingredientsWrapper
@@ -169,7 +189,6 @@ export default class RecipeModalContainer extends Component {
     this.setState({
       [type]: items
     });
-
     if (focusTarget) {
       focusTarget.focus();
     }
@@ -180,7 +199,7 @@ export default class RecipeModalContainer extends Component {
       recipe: { ingredients, instructions },
       onClose
     } = this.props;
-    // reset state
+    // reset state to what was passed in via props in case things were modified but not saved
     this.setState({
       ingredients,
       instructions,
@@ -189,14 +208,22 @@ export default class RecipeModalContainer extends Component {
     onClose();
   };
 
-  // TODO what are args
+  /**
+   * setItemRef is a function used as a callback ref in recipe modal component
+   * @param type string - value is either instructions or ingredients
+   * @param index - int the index of array.map
+   * @param el - node the node that is generated by Textfield Cauldron component, setItemRef is a param on RecipeModalItem set in RecipeModal component
+   */
   setItemRef = (type, index, el) => {
-    console.log(type, index, el);
     this[type][index] = el;
   };
 
+  /**
+   * setWrapperRef is a function used as a callback ref in recipe modal component
+   * @param type string value is either instructionsWrapper or ingredientsWrapper
+   * @param el node the node that setWrapperRef is assigned to ref param in RecipeModal component
+   */
   setWrapperRef = (type, el) => {
-    console.log(type);
     this[type] = el;
   };
 
@@ -205,12 +232,11 @@ export default class RecipeModalContainer extends Component {
     this.instructions = [];
     const { show, edit, recipe } = this.props;
     const { errors, instructions, ingredients } = this.state;
-
-    // TODO why do I need to rebuild the recipe data to passinto RecipeModal component?
+    // rebuild recipe data by reflecting things that have been removed or added via onDelete
     const recipeData = {
-      ...recipe
-      //   instructions,
-      //   ingredients
+      ...recipe,
+      instructions,
+      ingredients
     };
 
     return (
