@@ -70,8 +70,6 @@ export default class RecipeModal extends Component {
     const ingredientItems = this.renderItems('ingredients');
     const instructionItems = this.renderItems('instructions');
 
-    // TODO Add another recipe and another instruction not hooked up yet!!!
-
     return (
       <Modal
         show={show}
@@ -163,5 +161,3 @@ export default class RecipeModal extends Component {
   }
 }
 // what does the Button component from DQ cauldron do? it has a specific styling set for the button element. Comes with the .dqpl-button-primary by default or dpql-button-secondary by adding the secondary prop
-
-// TODO SAVE on edit still not working properly

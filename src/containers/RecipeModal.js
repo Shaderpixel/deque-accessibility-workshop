@@ -162,6 +162,7 @@ export default class RecipeModalContainer extends Component {
    * @param string type is either ingredients or instructions
    */
   add = type => {
+    // adding an entry in the state[type] array will create a blank RecipeModalItem via renderItems method in RecipeModal component
     this.setState(
       {
         [type]: this.state[type].concat('')

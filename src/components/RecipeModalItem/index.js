@@ -49,5 +49,6 @@ RecipeModalItem.defaultProps = {
   edit: false,
   type: 'ingredient'
 };
-// TODO RecipeModalItem.displayName = 'RecipeModalItem';
+
+RecipeModalItem.displayName = 'RecipeModalItemSUPERDEBUG';
 export default RecipeModalItem;

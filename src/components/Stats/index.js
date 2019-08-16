@@ -54,5 +54,5 @@ Stats.propTypes = {
   )
 };
 
-//TODO add Stats.displayName - not sure the reason for it
+Stats.displayName = 'Stats';
 export default Stats;
