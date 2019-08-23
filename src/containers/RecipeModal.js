@@ -70,17 +70,14 @@ export default class RecipeModalContainer extends Component {
   // the view-only modal's local state doesn't update immediately after an edit even though props contain the changes. This compares the props and state values and forces an update if not the same
   static getDerivedStateFromProps(newProps, state) {
     if (
-      !(newProps.recipe.ingredients.toString() === state.ingredients.toString())
+      newProps.recipe.ingredients.toString() !== state.ingredients.toString()
     ) {
       return {
         ingredients: newProps.recipe.ingredients
       };
     }
     if (
-      !(
-        newProps.recipe.instructions.toString() ===
-        state.instructions.toString()
-      )
+      newProps.recipe.instructions.toString() !== state.instructions.toString()
     ) {
       return {
         instructions: newProps.recipe.instructions
