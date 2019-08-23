@@ -67,8 +67,36 @@ export default class RecipeModalContainer extends Component {
     };
   }
 
+  // the view-only modal's local state doesn't update immediately after an edit even though props contain the changes. This compares the props and state values and forces an update if not the same
+  static getDerivedStateFromProps(newProps, state) {
+    if (
+      !(newProps.recipe.ingredients.toString() === state.ingredients.toString())
+    ) {
+      return {
+        ingredients: newProps.recipe.ingredients
+      };
+    }
+    if (
+      !(
+        newProps.recipe.instructions.toString() ===
+        state.instructions.toString()
+      )
+    ) {
+      return {
+        instructions: newProps.recipe.instructions
+      };
+    }
+    // Return null to indicate no change to state.
+    return null;
+  }
+
+  // componentDidUpdate(prevProps) {
+  //   // console.log(prevProps.recipe.ingredients);
+  //   // console.log(this.props.recipe.ingredients);
+  //   console.log(this.props.recipe.ingredients === prevProps.recipe.ingredients);
+  // }
+
   submitSuccess = () => {
-    // TODO changes in submitSucess not updating things in Recipes component?
     const { edit, updateRecipe, onClose, recipe } = this.props;
     const resetErrors = { errors: defaultErrors };
     const recipeUpdates = edit
@@ -85,10 +113,10 @@ export default class RecipeModalContainer extends Component {
         };
     // update state with all the input values set through setItemRef
     const newState = edit ? { ...resetErrors, ...recipeUpdates } : resetErrors;
-    this.setState(newState);
-
     // update main App container state
     updateRecipe(recipeUpdates);
+
+    this.setState(newState);
 
     // close modal by setting view state to null
     onClose();
@@ -257,3 +285,5 @@ export default class RecipeModalContainer extends Component {
     );
   }
 }
+
+// TODO View modal recipe information doesn't update after edit save!! looks like the ingredients state wasn't updated

@@ -75,8 +75,7 @@ const Recipes = ({
     </div>
   );
 };
-// TODO View modal recipe information doesn't update after edit save!! check to see what is recipe after something has been updated
-// TODO Recipes.displayName = 'Recipes'
+
 Recipes.propTypes = {
   recipes: PropTypes.arrayOf(
     PropTypes.shape({
@@ -101,4 +100,5 @@ Recipes.propTypes = {
   updateModalState: PropTypes.func.isRequired
 };
 
+Recipes.displayName = 'Recipes';
 export default Recipes;
