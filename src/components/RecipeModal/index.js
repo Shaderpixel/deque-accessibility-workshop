@@ -127,7 +127,6 @@ export default class RecipeModal extends Component {
                   min="0"
                   max="50"
                   fieldRef={el => {
-                    console.log(el);
                     setWrapperRef('yumminess', el);
                   }}
                 />
