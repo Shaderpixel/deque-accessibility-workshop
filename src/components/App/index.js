@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TopBar, Main, SkipLink, MenuItem, Layout, Icon } from 'cauldron-react';
+import { Main, SkipLink, Layout, Icon } from 'cauldron-react';
 import logo from '../../img/icons/logo.svg';
 import './index.css';
 import Stats from '../Stats';
@@ -13,16 +13,21 @@ const App = ({
   updateRecipe,
   updateModalState
 }) => (
-  // console.log(props) || (
   <div className="App">
-    {/* TODO hide skiplink when modal is open  */}
-    <SkipLink target={'#main-content'} />
-    <TopBar role="banner">
-      <MenuItem>
-        <img alt="" role="presentation" src={logo} />
-        <span>awesome recipes</span>
-      </MenuItem>
-    </TopBar>
+    {!modalState.edit && !modalState.view && (
+      <SkipLink target={'#main-content'} />
+    )}
+    <div className="dqpl-top-bar" role="banner">
+      <ul role="menubar">
+        <li
+          tabIndex={!modalState.view && !modalState.edit ? 0 : -1}
+          role="menuitem"
+        >
+          <img alt="" role="presentation" src={logo} />
+          <span>awesome recipes</span>
+        </li>
+      </ul>
+    </div>
     <Layout>
       <Main id="main-content" aria-labelledby="main-heading" tabIndex={-1}>
         <div className="App__head">
@@ -37,16 +42,6 @@ const App = ({
           updateRecipe={updateRecipe}
           updateModalState={updateModalState}
         />
-        <button
-          type="button"
-          className="Edit"
-          aria-label="Edit {recipe}"
-          onClick={() =>
-            alert('TODO: Build the accessible edit recipe modal! Good luck!')
-          }
-        >
-          <Icon type="fa-pencil" />
-        </button>
       </Main>
     </Layout>
   </div>
